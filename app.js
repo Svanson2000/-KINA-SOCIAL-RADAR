@@ -14,3 +14,35 @@ const reels=d.media.filter(x=>x.media_product_type==='REELS'),others=d.media.fil
 $('growthActions').innerHTML='<article class="card"><b>VIEWS</b><h3>'+fmt(bestViews.views)+' views</h3><p>'+esc((bestViews.caption||'Zonder caption').slice(0,90))+'</p></article><article class="card"><b>ENGAGEMENT</b><h3>'+pct(er(bestEng))+' ER</h3><p>'+esc((bestEng.caption||'Zonder caption').slice(0,90))+'</p></article><article class="card"><b>DEELBAARHEID</b><h3>'+pct(shareRate(bestShare))+' share rate</h3><p>'+esc((bestShare.caption||'Zonder caption').slice(0,90))+'</p></article>'+'<article class="card"><b>01</b><h3>'+bestType+' leveren meer views</h3><p>Gemiddeld '+fmt(Math.max(avg(reels),avg(others)))+' views. Geef dit formaat meer ruimte in je planning.</p></article><article class="card"><b>02</b><h3>Maak deelbare momenten</h3><p>'+fmt(d.totals.shares)+' shares, of '+pct(totalShareRate)+' van je views. Crowdreacties, herkenning en vragen kunnen dit verder optrekken.</p></article><article class="card"><b>03</b><h3>Kopieer de winnende hook</h3><p>Je nummer 1 haalt '+fmt(top[0]?.views)+' views. Gebruik de eerste zin, onderwerp en visuele start als format, niet als kopie.</p></article>';
 const tags={};top.forEach(m=>words(m.caption).forEach(t=>tags[t]=(tags[t]||0)+1));const common=Object.entries(tags).sort((a,b)=>b[1]-a[1]).slice(0,8);const avgLen=Math.round(top.reduce((s,m)=>s+(m.caption||'').length,0)/(top.length||1));$('captionSignals').innerHTML='<p><strong>Gemiddelde captionlengte top 3:</strong> '+avgLen+' tekens</p><p><strong>Hashtags in topcontent:</strong> '+(common.length?common.map(x=>'<span class="pill">'+esc(x[0])+'</span>').join(' '):'geen duidelijk patroon')+'</p><p class="muted">Dit zijn patronen uit je eigen top 3, geen garantie op extra bereik.</p>';
 }catch(e){$('status').classList.add('error');$('status').querySelector('span').textContent='Datafout';$('heroTitle').textContent='Live data kon niet laden';$('heroText').textContent=e.message}}load();
+const layoutMap={
+"WEEK IN 15 SEC":["WEEK IN 15 SEC","MA → ZA IN ÉÉN REEL","VOLG DE WEEK","9:16 • 1080×1920 • Reel cover","Grote titel bovenaan, 6 compacte dagblokken, DJ Kina onderaan. Eén opvallende avond krijgt accent."],
+"TONIGHT @ KOF":["TONIGHT @ KOF","VANAVOND • DJ KINA","SEE YOU TONIGHT","9:16 • 1080×1920 • Story","Grote TONIGHT-hook, centraal event/uur, echte crowdfoto als achtergrond, CTA onderaan."],
+"THIS WEEK’S 3 TRACKS":["3 TRACKS","THIS WEEK’S PICKS","SAVE DEZE 3","4:5 • 1080×1350 • Post","Cover met nummer 1 groot, daarna drie duidelijke trackregels. Ontworpen om te bewaren."],
+"TRACK DUEL":["TRACK DUEL","A  VS  B","STEM A OF B","9:16 • 1080×1920 • Story","50/50 split-layout. Track A links, B rechts, vraag centraal. Zeer weinig tekst."],
+"GUESS THE INTRO":["GUESS THE INTRO","KEN JIJ DEZE?","DROP JE ANTWOORD","9:16 • 1080×1920 • Reel cover","Mysterie-cover met waveform, groot vraagteken en één korte vraag."],
+"CROWD CHOICE":["CROWD CHOICE","YOU DECIDE TONIGHT","KIES IN COMMENTS","4:5 • 1080×1350 • Post","Crowdbeeld volvlak, twee of drie keuzepills en duidelijke comment-CTA."],
+"00s THROWBACK":["00s THROWBACK","2000–2009","WELKE TRACK MIS JE?","9:16 • 1080×1920 • Story","Y2K-geïnspireerde typografie, één sterke crowdfoto, jaartallen als grafisch element."],
+"ONE WORLD NIGHT":["ONE WORLD","LATIN • AFRO • WORLD","DANCE WITHOUT BORDERS","9:16 • 1080×1920 • Story","Ritmische typografie met drie genres, warme clubfoto, DJ Kina-signatuur."],
+"NO CLASS • JUST VIBES":["NO CLASS","NO STRESS • JUST VIBES","TONIGHT @ KOF","4:5 • 1080×1350 • Post","Slogan extreem groot, minimale eventinfo, echte studenten/crowd als hero."],
+"LIVE IN 10":["LIVE IN 10","KOF ON AIR","JOIN LIVE","9:16 • 1080×1920 • Story","Countdown dominant, LIVE-indicator, tijd en QR/linkzone onderaan."],
+"NOW PLAYING":["NOW PLAYING","TRACK • ARTIST","LIVE @ KOF","9:16 • 1080×1920 • Story","Album/track zone centraal, live DJ/crowd achtergrond en subtiele radar-ring."],
+"BEST OF KOF ON AIR":["BEST OF","KOF ON AIR","WATCH THE MOMENTS","9:16 • 1080×1920 • Reel cover","Drie verticale beeldstroken, afleveringstitel bovenaan, play-CTA onderaan."],
+"STUDENT KICK-OFF":["STUDENT","KICK-OFF","START THE SEMESTER","9:16 • 1080×1920 • Story","Gigantische KICK-OFF titel, datum/uur in badge, energieke echte crowdfoto."],
+"EXAM ESCAPE":["EXAM ESCAPE","NO STRESS TONIGHT","DROP THE BOOKS","9:16 • 1080×1920 • Story","Split tussen study en party, korte payoff, datum en DJ Kina onderaan."],
+"HALL OF FAME":["HALL OF FAME","NOMINATE YOUR TRACK","VOTE NOW","4:5 • 1080×1350 • Post","Premium ranking-look, nummer 1 spotlight, nominatie-CTA en stemzone."],
+"KINA CROWD CHECK":["CROWD CHECK","HOW LOUD WAS THIS?","RATE 1–10","9:16 • 1080×1920 • Reel cover","Echte close-up crowdreactie, minimale tekst, scorevraag groot onderaan."],
+"WHERE’S KINA?":["WHERE’S KINA?","THIS WEEK","SEE YOU THERE","4:5 • 1080×1350 • Post","Strakke weekroute met dagen links, locaties rechts en DJ Kina als vaste header."],
+"TRACK OF THE NIGHT":["TRACK OF THE NIGHT","TONIGHT’S WINNER","SAVE THIS TRACK","4:5 • 1080×1350 • Post","Tracktitel dominant, kleine locatie/date tag, crowdreactie als achtergrond."]
+};
+document.addEventListener('click',async e=>{
+ const btn=e.target.closest('.ideaSuggest'); if(btn){
+  document.querySelectorAll('.ideaSuggest').forEach(x=>x.classList.remove('active'));btn.classList.add('active');
+  const v=layoutMap[btn.dataset.suggestion]||[btn.dataset.suggestion,'NEW CONCEPT','USE THIS IDEA','9:16 • 1080×1920','Sterke titel, één hero-beeld en één duidelijke CTA.'];
+  const q=id=>document.getElementById(id); q('lpKicker').textContent=v[0];q('lpTitle').textContent=v[1];q('lpCTA').textContent=v[2];q('layoutInfoTitle').textContent=v[0];q('layoutInfoText').textContent=v[4];q('layoutSpec').textContent=v[3];q('layoutPreview').scrollIntoView({behavior:'smooth',block:'center'});
+ }
+ if(e.target.closest('#copyLayoutBrief')){
+  const active=document.querySelector('.ideaSuggest.active'); if(!active)return;
+  const v=layoutMap[active.dataset.suggestion]; const brief='CANVA LAYOUT — '+v[0]+'\nFormaat: '+v[3]+'\nHeadline: '+v[1]+'\nCTA: '+v[2]+'\nOpbouw: '+v[4]+'\nStijl: DJ Kina, donker premium club, Apple-strak, echte fotografie, hoge mobiele leesbaarheid, volledig bewerkbaar in Canva.';
+  try{await navigator.clipboard.writeText(brief);document.getElementById('layoutCopyState').textContent='Canva-layout gekopieerd ✓';}catch(_){document.getElementById('layoutCopyState').textContent='Selecteer en kopieer de layout handmatig.'}
+ }
+});
