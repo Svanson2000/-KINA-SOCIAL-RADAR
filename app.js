@@ -46,3 +46,12 @@ document.addEventListener('click',async e=>{
   try{await navigator.clipboard.writeText(brief);document.getElementById('layoutCopyState').textContent='Canva-layout gekopieerd ✓';}catch(_){document.getElementById('layoutCopyState').textContent='Selecteer en kopieer de layout handmatig.'}
  }
 });
+const weekBrief='CANVA LAYOUT — DJ KINA WEEKOVERZICHT\nFormaat: 1080×1350 Instagram post, ook eenvoudig omzetbaar naar 1080×1920 Story.\nStructuur: sterke THIS WEEK / DJ KINA header; zes vaste dagblokken MA t/m ZA; per dag ruimte voor locatie + eventnaam; één highlight-event groter; footer met @dj_kina.\nStijl: donker premium club, Apple-strak, echte locatie/crowdfoto subtiel op achtergrond, DJ Kina radaraccenten, zeer leesbaar op mobiel, weinig decoratie.\nDoel: binnen 2 seconden zien waar DJ Kina die week draait. Volledig bewerkbaar in Canva.';
+document.addEventListener('click',async e=>{
+ if(e.target.closest('#weekLayoutBtn')){
+  document.getElementById('lpKicker').textContent='THIS WEEK';document.getElementById('lpTitle').textContent='DJ KINA • MA → ZA';document.getElementById('lpCTA').textContent='WHERE ARE WE MEETING?';document.getElementById('layoutInfoTitle').textContent='DJ KINA WEEKOVERZICHT';document.getElementById('layoutInfoText').textContent='Zes vaste dagblokken, één highlight-event groter, locaties en thema’s direct scanbaar. Ontworpen voor wekelijkse herhaling.';document.getElementById('layoutSpec').textContent='4:5 • 1080×1350 • Instagram post';document.getElementById('layoutPreview').scrollIntoView({behavior:'smooth',block:'center'});
+ }
+ if(e.target.closest('#copyWeekBrief')){
+  try{await navigator.clipboard.writeText(weekBrief);document.getElementById('weekCopyState').textContent='Weekoverzicht-briefing gekopieerd ✓';}catch(_){document.getElementById('weekCopyState').textContent='Kopiëren lukte niet.'}
+ }
+});
