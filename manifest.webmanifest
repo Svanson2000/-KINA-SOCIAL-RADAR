@@ -1,0 +1,16 @@
+{
+  "name": "KINA SOCIAL RADAR",
+  "short_name": "KINA RADAR",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050506",
+  "theme_color": "#050506",
+  "icons": [
+    {
+      "src": "/kina-social-radar-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
